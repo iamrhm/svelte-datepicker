@@ -5,7 +5,17 @@ import Tiles from '../tiles'
 
 import './calendar.css'
 
-const Calendar = ({ currentDate, changedDate, onDateChange = () => { } }) => {
+const Calendar = (
+  { currentDate, changedDate,
+    currentMonthStocks, inputPrice,
+    activeTile,
+    onDateChange = () => { },
+    changeActiveTile = () => { },
+    onInputPriceChange = () => { },
+    savePriceData = () => { },
+    deleteStockData = () => { }
+  }
+) => {
   const calendar = getCalenderArray(changedDate)
   const month = getMonth(changedDate)
   const year = changedDate.getFullYear()
@@ -25,14 +35,33 @@ const Calendar = ({ currentDate, changedDate, onDateChange = () => { } }) => {
       </div>
       <header className='days-container'>
         {Days.map((day, idx) => (
-          <Tiles key={idx} displayText={day} />
+          <Tiles key={idx} data={day} />
         ))}
       </header>
       <div className='calendar-date-container'>
         {
-          calendar.map((date, idx) => (
-            <Tiles key={idx} displayText={date} />
-          ))
+          calendar.map((date, idx) => {
+            if (date !== null) {
+              let foundStock = currentMonthStocks.find((stock) => stock.date.getDate() === date)
+              let isStockMissing = foundStock === undefined ? true : false
+              return (
+                <Tiles key={idx}
+                  data={date}
+                  isActive={date === activeTile}
+                  tileNo={date}
+                  isStockMissing={isStockMissing}
+                  inputPrice={inputPrice}
+                  price={foundStock !== undefined ? foundStock.price : ''}
+
+                  onInputChange={date === activeTile ? onInputPriceChange : () => { }}
+                  changeActiveTile={changeActiveTile}
+                  savePriceData={savePriceData}
+                  deleteStockData={deleteStockData} />
+
+              )
+            }
+            else return null
+          })
         }
       </div>
     </div>

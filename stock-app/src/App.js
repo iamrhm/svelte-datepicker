@@ -3,27 +3,35 @@ import './App.css';
 
 import { getNextMonth, getPreviousMonth } from './utils/functions'
 import Calendar from './components/calendar'
+import { getPricingForMonth } from './__mock__/stocks'
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
       currentDate: null,
-      changedDate: null
+      changedDate: null,
+      activeTile: '',
+      currentMonthStocks: [],
+      inputPrice: ''
     }
     this.handleDateChange = this.handleDateChange.bind(this)
+    this.changeActiveTile = this.changeActiveTile.bind(this)
+    this.onInputPriceChange = this.onInputPriceChange.bind(this)
+    this.savePriceData = this.savePriceData.bind(this)
+    this.deleteStockData = this.deleteStockData.bind(this)
   }
 
   componentWillMount() {
     this.setState({
       currentDate: new Date(),
-      changedDate: new Date()
+      changedDate: new Date(),
+      currentMonthStocks: getPricingForMonth(new Date())
     })
     //#TODO: Add currentDate change on day change
   }
 
   handleDateChange(move) {
-    console.log(move)
     let newChangedDate = this.state.changedDate
     if (move === 'forward') {
       newChangedDate = getNextMonth(newChangedDate)
@@ -31,18 +39,48 @@ class App extends Component {
       newChangedDate = getPreviousMonth(newChangedDate)
     }
     this.setState({
-      changedDate: newChangedDate
+      changedDate: newChangedDate,
+      currentMonthStocks: getPricingForMonth(newChangedDate)
     })
   }
 
+  changeActiveTile(tileNumber) {
+    let { activeTile } = this.state
+    if (activeTile === tileNumber)
+      this.setState({ activeTile: '' })
+    else
+      this.setState({ activeTile: tileNumber })
+  }
+
+  onInputPriceChange(value) {
+    this.setState({ inputPrice: value })
+  }
+
+  savePriceData() {
+    console.log(this.state.inputPrice)//call save
+    this.setState({ inputPrice: '', activeTile: '' })
+  }
+
+  deleteStockData(date) {
+    console.log(date)
+  }
+
   render() {
-    const { currentDate, changedDate } = this.state
+    const { currentDate, changedDate, activeTile, currentMonthStocks, inputPrice } = this.state
     return (
       <div className="App" >
         <Calendar
           currentDate={currentDate}
           changedDate={changedDate}
+          activeTile={activeTile}
+          currentMonthStocks={currentMonthStocks}
+          inputPrice={inputPrice}
+
           onDateChange={this.handleDateChange}
+          changeActiveTile={this.changeActiveTile}
+          onInputPriceChange={this.onInputPriceChange}
+          savePriceData={this.savePriceData}
+          deleteStockData={this.deleteStockData}
         />
       </div>
     );
