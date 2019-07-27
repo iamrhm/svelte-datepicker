@@ -1,0 +1,8 @@
+.buy-and-sale-container{
+  width: 100%;
+  height:30%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}

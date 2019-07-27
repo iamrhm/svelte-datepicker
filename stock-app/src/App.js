@@ -4,6 +4,9 @@ import './App.css';
 import { getNextMonth, getPreviousMonth } from './utils/functions'
 import Calendar from './components/calendar'
 import { getPricingForMonth } from './__mock__/stocks'
+import Profit from './components/profit'
+import Graph from './components/graph'
+import BuyAndSale from './components/buy-and-sale'
 
 class App extends Component {
   constructor(props) {
@@ -69,19 +72,27 @@ class App extends Component {
     const { currentDate, changedDate, activeTile, currentMonthStocks, inputPrice } = this.state
     return (
       <div className="App" >
-        <Calendar
-          currentDate={currentDate}
-          changedDate={changedDate}
-          activeTile={activeTile}
-          currentMonthStocks={currentMonthStocks}
-          inputPrice={inputPrice}
+        <div className='left-pane'>
+          <Calendar
+            currentDate={currentDate}
+            changedDate={changedDate}
+            activeTile={activeTile}
+            currentMonthStocks={currentMonthStocks}
+            inputPrice={inputPrice}
 
-          onDateChange={this.handleDateChange}
-          changeActiveTile={this.changeActiveTile}
-          onInputPriceChange={this.onInputPriceChange}
-          savePriceData={this.savePriceData}
-          deleteStockData={this.deleteStockData}
-        />
+            onDateChange={this.handleDateChange}
+            changeActiveTile={this.changeActiveTile}
+            onInputPriceChange={this.onInputPriceChange}
+            savePriceData={this.savePriceData}
+            deleteStockData={this.deleteStockData}
+          />
+        </div>
+        <div className='right-pane'>
+          <Profit currentMonthStocks={currentMonthStocks} date={changedDate} />
+          <Graph currentMonthStocks={currentMonthStocks} />
+          <BuyAndSale currentMonthStocks={currentMonthStocks} date={changedDate} />
+        </div>
+
       </div>
     );
   }
