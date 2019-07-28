@@ -38,7 +38,10 @@ class RightPane extends Component {
     return (
       <div className='right-pane'>
         <Profit maxProfitDetails={maxProfitDetails} />
-        <Graph currentMonthStocks={currentMonthStocks} />
+        {
+          (currentMonthStocks !== null && currentMonthStocks !== undefined && currentMonthStocks.length > 0) ?
+            <Graph currentMonthStocks={currentMonthStocks} /> : <div>Loading...</div>
+        }
         <BuyAndSale maxProfitDetails={maxProfitDetails} />
       </div>
     );

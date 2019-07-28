@@ -6,6 +6,7 @@ import { getPricingForMonth } from '../../utils/functions'
 
 import LeftPane from '../left-pane'
 import RightPane from '../right-pane'
+import { of } from 'rxjs';
 
 class Dashboard extends Component {
   constructor(props) {
@@ -52,20 +53,29 @@ class Dashboard extends Component {
 
   render() {
     const { calendarDate, currentMonthStocks } = this.state
-    return (
-      <div className="dashboard" >
-        <LeftPane
-          calendarDate={calendarDate}
-          currentMonthStocks={currentMonthStocks}
-          onDateChange={this.handleDateChange}
-          savePriceData={this.savePriceData}
-          deleteStockData={this.deleteStockData} />
-        <RightPane
-          calendarDate={calendarDate}
-          currentMonthStocks={currentMonthStocks}
-        />
-      </div>
-    );
+    if (currentMonthStocks !== undefined && currentMonthStocks !== null && currentMonthStocks.length > 0) {
+      return (
+        <div className="dashboard" >
+          <LeftPane
+            calendarDate={calendarDate}
+            currentMonthStocks={currentMonthStocks}
+            onDateChange={this.handleDateChange}
+            savePriceData={this.savePriceData}
+            deleteStockData={this.deleteStockData} />
+          <RightPane
+            calendarDate={calendarDate}
+            currentMonthStocks={currentMonthStocks}
+          />
+        </div>
+      );
+    } else {
+      return (
+        <div className="dashboard" >
+          Loading..
+        </div>
+      );
+    }
+
   }
 }
 

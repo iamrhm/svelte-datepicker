@@ -8,20 +8,6 @@ input :focus{
   outline:none;
 }
 
-
-/* Default */
-.default-tiles-container{
-  width: 14%;
-  height: 20%;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  align-items: center
-}
-.default-tiles{
-
-}
-
 /* For Date Tiles*/
 .tile-container{
   width: 14%;
@@ -31,6 +17,8 @@ input :focus{
   justify-content: center;
   align-content: center;
   position: relative;
+  border-right: .2px solid;
+  border-bottom: .2px solid;
 }
 
 .tile-header{

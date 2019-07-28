@@ -56,24 +56,25 @@ export function calculateMaxProfit(monthlyStock, perUnit) {
   if (monthlyStock.length > 2) {
     let maxProfit = monthlyStock[1].price - monthlyStock[0].price
     let buyDetails = monthlyStock[0]
-
-    let saleDetails = monthlyStock[1]
+    let maxProfitDetails = {
+      profit: null,
+      buyDetails: null,
+      saleDetails: null
+    }
 
     for (let i = 1; i < monthlyStock.length; i++) {
       if (monthlyStock[i].price - buyDetails.price > maxProfit) {
+        maxProfitDetails.profit = (monthlyStock[i].price - buyDetails.price) * 10
+        maxProfitDetails.saleDetails = monthlyStock[i]
+        maxProfitDetails.buyDetails = buyDetails
+
         maxProfit = monthlyStock[i].price - buyDetails.price
-        saleDetails = monthlyStock[i]
       }
-      if (monthlyStock[i].price < buyDetails.price && i < monthlyStock.length - 2) {
+      if (monthlyStock[i].price < buyDetails.price) {
         buyDetails = monthlyStock[i]
-        saleDetails = monthlyStock[i + 1]
       }
     }
-    return {
-      profit: maxProfit * perUnit,
-      buyDetails: buyDetails,
-      saleDetails: saleDetails
-    }
+    return maxProfitDetails
   } else {
     return {
       profit: 0,
