@@ -27,14 +27,16 @@ const BuyAndSale = ({ maxProfitDetails }) => {
             <span className='default-logo-circle'></span>
           </span>
           <span className='buy-and-sale-date-label'>Sale Date</span>
-          {
-            saleDetails !== undefined ?
-              <React.Fragment>
-                <span>{saleDetails.date.getDate()}-</span>
-                <span>{saleDetails.date.getMonth()}-</span>
-                <span>{saleDetails.date.getFullYear()}</span>
-              </React.Fragment> : null
-          }
+          <span className='buy-sale-date-value'>
+            {
+              saleDetails !== undefined ?
+                <React.Fragment>
+                  <span>{saleDetails.date.getDate()}-</span>
+                  <span>{saleDetails.date.getMonth()}-</span>
+                  <span>{saleDetails.date.getFullYear()}</span>
+                </React.Fragment> : null
+            }
+          </span>
         </span>
       </div>
     )

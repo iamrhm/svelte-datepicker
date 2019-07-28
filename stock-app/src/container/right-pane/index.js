@@ -17,14 +17,18 @@ class RightPane extends Component {
 
   componentWillMount() {
     let { currentMonthStocks } = this.props
-    let newMaxProfit = calculateMaxProfit(currentMonthStocks, 10)
-    this.setState({
-      maxProfitDetails: newMaxProfit
-    })
+    if (currentMonthStocks !== undefined && currentMonthStocks !== null) {
+      let newMaxProfit = calculateMaxProfit(currentMonthStocks, 10)
+      this.setState({
+        maxProfitDetails: newMaxProfit
+      })
+    }
   }
 
   componentWillUpdate(newProps) {
-    if (newProps.calendarDate !== this.props.calendarDate) {
+    if (newProps.calendarDate !== this.props.calendarDate 
+      && newProps.currentMonthStocks !== undefined 
+      && newProps.currentMonthStocks !== null) {
       let newMaxProfit = calculateMaxProfit(newProps.currentMonthStocks, 10)
       this.setState({
         maxProfitDetails: newMaxProfit

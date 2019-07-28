@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import './dashboard.css';
 
 import { getNextMonth, getPreviousMonth } from '../../utils/functions'
-import { getPricingForMonth } from '../../utils/functions'
+import { getPricingForMonth, updateStock } from '../../utils/functions'
 
 import LeftPane from '../left-pane'
 import RightPane from '../right-pane'
-import { of } from 'rxjs';
 
 class Dashboard extends Component {
   constructor(props) {
@@ -21,10 +20,14 @@ class Dashboard extends Component {
   }
 
   componentWillMount() {
-    let newMonthStock = getPricingForMonth(new Date())
+    let fetchData = getPricingForMonth(new Date())
     this.setState({
-      calendarDate: new Date(),
-      currentMonthStocks: newMonthStock
+      calendarDate: new Date()
+    })
+    fetchData.then((newMonthStock) => {
+      this.setState({
+        currentMonthStocks: newMonthStock
+      })
     })
   }
 
@@ -36,15 +39,21 @@ class Dashboard extends Component {
     } else {
       newChangedDate = getPreviousMonth(newChangedDate)
     }
-    let newMonthStock = getPricingForMonth(newChangedDate)
     this.setState({
-      calendarDate: newChangedDate,
-      currentMonthStocks: newMonthStock
+      calendarDate: newChangedDate
+    })
+
+    let fetchData = getPricingForMonth(newChangedDate)
+    fetchData.then((newMonthStock) => {
+      this.setState({
+        currentMonthStocks: newMonthStock
+      })
     })
   }
 
   savePriceData(inputPrice, date) {
-    console.log(inputPrice, date)
+    updateStock(inputPrice, date)
+    //some glitches are there
   }
 
   deleteStockData(day) {
@@ -71,7 +80,16 @@ class Dashboard extends Component {
     } else {
       return (
         <div className="dashboard" >
-          Loading..
+          <LeftPane
+            calendarDate={calendarDate}
+            currentMonthStocks={currentMonthStocks}
+            onDateChange={this.handleDateChange}
+            savePriceData={this.savePriceData}
+            deleteStockData={this.deleteStockData} />
+          <RightPane
+            calendarDate={calendarDate}
+            currentMonthStocks={currentMonthStocks}
+          />
         </div>
       );
     }

@@ -73,17 +73,13 @@ class LeftPane extends Component {
       onDateChange = () => { }
     } = this.props
     const { currentDate, activeTile, inputPrice } = this.state
-
-    if (currentMonthStocks === undefined) {
-      return <div>Loading...</div>
-    }
     return (
       <div className='left-pane'>
         <Calendar
           currentDate={currentDate}
           calendarDate={calendarDate}
           activeTile={activeTile}
-          currentMonthStocks={currentMonthStocks}
+          currentMonthStocks={currentMonthStocks !== undefined ? currentMonthStocks : []}
           inputPrice={inputPrice}
 
           onDateChange={onDateChange}

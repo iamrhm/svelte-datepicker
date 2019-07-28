@@ -1,0 +1,14 @@
+{
+  "name": "stock-app",
+  "version": "1.0.0",
+  "description": "simple server for stock-app",
+  "main": "index.js",
+  "repository": "https://github.com/iamrhm/stock-reports",
+  "author": "Rahul Mitra",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.6.7",
+    "nodemon": "^1.19.1"
+  }
+}
