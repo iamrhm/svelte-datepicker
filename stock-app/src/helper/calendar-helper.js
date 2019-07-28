@@ -24,7 +24,7 @@ function getCalenderArray(propsDate) {
 
 export default getCalenderArray
 
-export const Days = ['Sunday', 'Monday', 'Tuesday', 'Wednessday', 'Thursday', 'Friday', 'Saturday']
+export const Days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
 export const Months = ['January', 'February', 'March',
   'Appril', 'May', 'June', 'July',

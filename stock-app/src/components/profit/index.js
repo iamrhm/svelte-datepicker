@@ -1,18 +1,19 @@
 import React from 'react'
 
 import './profit.css'
-const unitToCalProfit = 10
 
-function getMaxProfit() {
-
-}
-
-const Projit = ({ currentMonthStocks, date }) => {
-  const maxProfit = getMaxProfit(currentMonthStocks, date, unitToCalProfit)
+const Profit = ({ maxProfitDetails }) => {
+  let { profit } = maxProfitDetails
+  profit = profit !== null ? profit.toFixed(2) : 'Insufficient Stock Price'
   return (
     <div className='profit-container'>
-      <span>23K</span>
+      <span className='profit-label'>Max Profit</span>
+      <span className='profit-value-wrapper'>
+        <span className='profit-value'>
+          {profit}M Rs.
+      </span>
+      </span>
     </div>
   )
 }
-export default Projit
+export default Profit

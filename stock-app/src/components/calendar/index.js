@@ -2,12 +2,15 @@ import React from 'react'
 
 import getCalenderArray, { Days, getMonth } from '../../helper/calendar-helper'
 import Tiles from '../tiles'
+import Slots from '../slots'
 
 import './calendar.css'
 
 const Calendar = (
-  { currentDate, changedDate,
-    currentMonthStocks, inputPrice,
+  { currentDate,
+    calendarDate,
+    currentMonthStocks,
+    inputPrice,
     activeTile,
     onDateChange = () => { },
     changeActiveTile = () => { },
@@ -16,26 +19,26 @@ const Calendar = (
     deleteStockData = () => { }
   }
 ) => {
-  const calendar = getCalenderArray(changedDate)
-  const month = getMonth(changedDate)
-  const year = changedDate.getFullYear()
+  const calendar = getCalenderArray(calendarDate)
+  const month = getMonth(calendarDate)
+  const year = calendarDate.getFullYear()
   return (
     <div className='calendar-container'>
       <div className='months-and-action-conatiner'>
-        <button className='calendar-buttons' onClick={() => onDateChange('back')}>
+        <button className='calendar-buttons' onClick={(e) => onDateChange(e,'back')}>
           <i className='material-icons'>arrow_back</i>
         </button>
         <div className='month-year-display'>
           <span className='month-display'>{month}</span>
           <span className='year-display'>{year}</span>
         </div>
-        <button className='calendar-buttons' onClick={() => onDateChange('forward')}>
+        <button className='calendar-buttons' onClick={(e) => onDateChange(e,'forward')}>
           <i className='material-icons'>arrow_forward</i>
         </button>
       </div>
       <header className='days-container'>
         {Days.map((day, idx) => (
-          <Tiles key={idx} data={day} />
+          <Slots key={idx} data={day} />
         ))}
       </header>
       <div className='calendar-date-container'>

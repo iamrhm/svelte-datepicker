@@ -1,5 +1,8 @@
 import React, { PureComponent } from 'react'
 
+import Form from '../form'
+import StockList from '../stocklist'
+
 import './tiles.css'
 
 class Tiles extends PureComponent {
@@ -7,16 +10,6 @@ class Tiles extends PureComponent {
     const { data, isActive, tileNo, isStockMissing, price, inputPrice,
       changeActiveTile = () => { }, onInputChange = () => { }, savePriceData = () => { },
       deleteStockData = () => { } } = this.props
-    if (tileNo === undefined || tileNo === undefined || changeActiveTile === undefined) {
-      return (
-        <div className='default-tiles-container'>
-          <span className='default-tiles'>
-            {data}
-          </span>
-        </div>
-      )
-    }
-    else {
       return (
         <div className='tile-container'>
           <span className='tile-header'>
@@ -36,8 +29,8 @@ class Tiles extends PureComponent {
       )
     }
   }
-}
 export default Tiles
+
 
 const CloseButton = ({ tileNo, onClick = () => { } }) => {
   return (
@@ -56,43 +49,5 @@ const AddButton = ({ tileNo, onClick = () => { } }) => {
       onClick={() => onClick(tileNo)}>
       <i className='material-icons mini-icon'>add</i>
     </span>
-  )
-}
-
-const Form = ({ inputPrice, onChange, onClick }) => {
-  return (
-    <React.Fragment>
-      <div className='input-controll'>
-        <input
-          placeholder='A Missing Price'
-          className='add-missing-price-input'
-          type='text'
-          value={inputPrice}
-          onChange={(e) => onChange(e.target.value)} />
-      </div>
-      <span
-        className='add-missing-value-button'
-        onClick={() => onClick()}>
-        <i className='material-icons mini-icon'>done</i>
-      </span>
-    </React.Fragment>
-  )
-}
-
-const StockList = ({ date, price, deleteStockData }) => {
-  return (
-    <React.Fragment>
-      <span className='stock-item'>
-        <span className='stock-logo'>
-          <span className='default-logo-circle'></span>
-        </span>
-        <span className='stock-price'>{price}M</span>
-        <span
-          className='delete-button'
-          onClick={() => deleteStockData(date)}>
-          <i className='material-icons mini-icon'>close</i>
-        </span>
-      </span>
-    </React.Fragment>
   )
 }

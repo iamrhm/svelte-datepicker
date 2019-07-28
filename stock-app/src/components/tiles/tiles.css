@@ -75,51 +75,13 @@ input :focus{
   overflow-y: auto;
 }
 
-.stock-item{
-  width: 90%;
-  height:30%;
-  font-size: 16px;
-  color:#fff;
-  padding:1%;
-  position: relative;
-  
-  border-radius: 15px 0 0 15px;
-  background: #00bfa5;
-
-  display:flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-content: center;
-  align-items: center;
-}
-
-.stock-logo{
-  width: 12px;
-  height: 12px;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  padding:1.5%;
-}
-
-.default-logo-circle{
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #fff;
-  z-index: 999;
-}
 
 
 
-.stock-price{
-  font-size: 12px;
-  padding: .5%;
-}
-.mini-icon{
-  font-size: 12px;
-}
+
+
+
+
 
 /* Active Part */
 .input-controll{
@@ -145,24 +107,7 @@ input :focus{
   height: 100%;
 }
 
-.add-missing-value-button{
-  margin: 0;
-  outline: 0;
-  width: 15px;
-  height: 15px;
-  font-size: 14px !important;
-  cursor:pointer;
 
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-
-  border-radius: 50%;
-  padding: 1%;
-  border: .5px solid #4177F6;
-  color: #4177F6;
-}
 
 .delete-button{
   float: left;
