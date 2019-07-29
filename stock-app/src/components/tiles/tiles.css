@@ -46,6 +46,21 @@ input :focus{
   line-height: 22px;
 }
 
+.today-tile-title{
+  width: 50%;
+  height: 100%;
+  font-size: 24px;
+  padding: 1%;
+  color: #4177f6;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  font-weight: 500;
+  line-height: 22px;
+}
+
 .tile-body{
   width: 90%;
   height:60%;

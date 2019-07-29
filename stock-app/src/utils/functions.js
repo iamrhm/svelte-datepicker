@@ -82,7 +82,6 @@ export function calculateMaxProfit(monthlyStock, perUnit) {
         buyDetails = monthlyStock[i]
       }
     }
-    console.log(maxProfitDetails)
     return maxProfitDetails
   }
   else {

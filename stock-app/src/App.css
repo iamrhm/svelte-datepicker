@@ -7,5 +7,7 @@
   align-content: center;
   align-items: center;
 }
-
+button:active{
+  transform: scale(.97)
+}
 

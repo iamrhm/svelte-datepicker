@@ -10,23 +10,21 @@ function getWeeklyDay(date, dateOfDate) {
 function getCalenderArray(propsDate) {
   const daysInMonth = getNoOfDaysInMonth(propsDate)
   const startDay = getWeeklyDay(propsDate, 1)
-  console.log(startDay)
   const calenderArray = []
 
   for (let i = 0; i < startDay; i++) {
     calenderArray.push('')
   }
-  calenderArray[getWeeklyDay(propsDate, 1) ] = 1
+  calenderArray[getWeeklyDay(propsDate, 1)] = 1
   for (let i = 2; i <= daysInMonth; i++) {
     calenderArray.push(i)
   }
-  console.log(calenderArray)
   return calenderArray
 }
 
 export default getCalenderArray
 
-export const Days = ['Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+export const Days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
 export const Months = ['January', 'February', 'March',
   'Appril', 'May', 'June', 'July',
@@ -34,4 +32,11 @@ export const Months = ['January', 'February', 'March',
 
 export function getMonth(propsDate) {
   return Months[propsDate.getMonth()]
+}
+
+export function checkToday(calendarDate, date) {
+  if (date !== '' && date !== undefined) {
+    return `${calendarDate.getDate()}` === `${date}`
+  }
+  return false
 }

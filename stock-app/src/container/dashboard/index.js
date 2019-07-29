@@ -64,7 +64,7 @@ class Dashboard extends Component {
 
   deleteStockData(date) {
     deleteStock(date)
-    //console.log(date)
+    this.fectchData(this.state.calendarDate)
   }
 
   render() {

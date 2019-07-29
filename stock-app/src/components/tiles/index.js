@@ -10,22 +10,25 @@ class Tiles extends PureComponent {
     const { data, isActive, tileNo, isStockMissing, price, inputPrice, isToday,
       changeActiveTile = () => { }, onInputChange = () => { }, savePriceData = () => { },
       deleteStockData = () => { } } = this.props
-      console.log(isToday)
     return (
       <div className='tile-container'>
-        <span className={`${isToday ? 'today-tile-header' : 'tile-header'}`}>
-          <span className={`${isToday ? 'today-tile-title' : 'tile-title'}`}>
-            {data}
-          </span>
-          {isActive ? <CloseButton tileNo={tileNo} onClick={changeActiveTile} /> : null}
-        </span>
-        <div className='tile-body'>
+        {<span className='tile-header'>
           {
-            isActive ? <Form inputPrice={inputPrice} onChange={onInputChange} onClick={savePriceData} /> :
+            isToday ? <span className='today-tile-title'>
+              {data}
+            </span> : <span className='tile-title'>
+                {data}
+              </span>
+          }
+          {isActive && data !== ''? <CloseButton tileNo={tileNo} onClick={changeActiveTile} /> : null}
+        </span>
+        }<div className='tile-body'>
+          {
+            isActive && data !== ''? <Form inputPrice={inputPrice} onChange={onInputChange} onClick={savePriceData} /> :
               !isStockMissing ? <StockList date={data} price={price} deleteStockData={deleteStockData} /> : null
           }
         </div>
-        {isStockMissing && !isActive ? <AddButton tileNo={tileNo} onClick={changeActiveTile} /> : null}
+        {isStockMissing && !isActive && data !== '' ? <AddButton tileNo={tileNo} onClick={changeActiveTile} /> : null}
       </div>
     )
   }
