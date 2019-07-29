@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './dashboard.css';
 
-import { getNextMonth, getPreviousMonth } from '../../utils/functions'
-import { getPricingForMonth, updateStock } from '../../utils/functions'
+import { getNextMonth, getPreviousMonth, deleteStock } from '../../utils/functions'
+import { getPricingForMonth, updateStock, calculateMaxProfit } from '../../utils/functions'
 
 import LeftPane from '../left-pane'
 import RightPane from '../right-pane'
@@ -13,22 +13,34 @@ class Dashboard extends Component {
     this.state = {
       calendarDate: new Date(),
       currentMonthStocks: [],
+      maxProfitDetails: {
+        profit: null,
+        saleDetails: null,
+        buyDetails: null
+      }
     }
     this.handleDateChange = this.handleDateChange.bind(this)
     this.savePriceData = this.savePriceData.bind(this)
     this.deleteStockData = this.deleteStockData.bind(this)
+    this.fectchData = this.fectchData.bind(this)
+  }
+
+  fectchData(date) {
+    let apiData = getPricingForMonth(date)
+    apiData.then((newMonthStock) => {
+      let newMaxProfitDetails = calculateMaxProfit(newMonthStock, 10)
+      this.setState({
+        currentMonthStocks: newMonthStock,
+        maxProfitDetails: newMaxProfitDetails
+      })
+    })
   }
 
   componentWillMount() {
-    let fetchData = getPricingForMonth(new Date())
     this.setState({
       calendarDate: new Date()
     })
-    fetchData.then((newMonthStock) => {
-      this.setState({
-        currentMonthStocks: newMonthStock
-      })
-    })
+    this.fectchData(new Date())
   }
 
   handleDateChange(e, move) {
@@ -42,26 +54,21 @@ class Dashboard extends Component {
     this.setState({
       calendarDate: newChangedDate
     })
-
-    let fetchData = getPricingForMonth(newChangedDate)
-    fetchData.then((newMonthStock) => {
-      this.setState({
-        currentMonthStocks: newMonthStock
-      })
-    })
+    this.fectchData(newChangedDate)
   }
 
   savePriceData(inputPrice, date) {
     updateStock(inputPrice, date)
-    //some glitches are there
+    this.fectchData(this.state.calendarDate)
   }
 
-  deleteStockData(day) {
-    console.log(day)
+  deleteStockData(date) {
+    deleteStock(date)
+    //console.log(date)
   }
 
   render() {
-    const { calendarDate, currentMonthStocks } = this.state
+    const { calendarDate, currentMonthStocks, maxProfitDetails } = this.state
     if (currentMonthStocks !== undefined && currentMonthStocks !== null && currentMonthStocks.length > 0) {
       return (
         <div className="dashboard" >
@@ -74,6 +81,7 @@ class Dashboard extends Component {
           <RightPane
             calendarDate={calendarDate}
             currentMonthStocks={currentMonthStocks}
+            maxProfitDetails={maxProfitDetails}
           />
         </div>
       );
@@ -89,6 +97,7 @@ class Dashboard extends Component {
           <RightPane
             calendarDate={calendarDate}
             currentMonthStocks={currentMonthStocks}
+            maxProfitDetails={maxProfitDetails}
           />
         </div>
       );

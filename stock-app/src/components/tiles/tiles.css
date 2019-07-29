@@ -17,8 +17,8 @@ input :focus{
   justify-content: center;
   align-content: center;
   position: relative;
-  border-right: .2px solid;
-  border-bottom: .2px solid;
+  border-right: .2px solid #0000004f;
+  border-bottom: .2px solid #00000063;
 }
 
 .tile-header{
@@ -35,14 +35,15 @@ input :focus{
   width: 40%;
   height: 100%;
   padding: 0 1%;
-  color: #000;
+  color: #000000ad;
   font-weight: 500;
-  font-size: 18px;
+  font-size: 20px;
   text-align: center;
   display: flex;
   justify-content: center;
   align-content: center;
   align-items: center;
+  line-height: 22px;
 }
 
 .tile-body{

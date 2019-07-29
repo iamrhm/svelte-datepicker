@@ -12,7 +12,7 @@ const StockList = ({ date, price, deleteStockData }) => {
         <span
           className='delete-button'
           onClick={() => deleteStockData(date)}>
-          <i className='material-icons mini-icon'>close</i>
+          <i className='material-icons mini-icon'>delete</i>
         </span>
       </span>
     </React.Fragment>

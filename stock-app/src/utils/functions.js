@@ -25,14 +25,13 @@ function getEndingingRange(date) {
 }
 
 function basedOnDay(a, b) {
-  let aDate = a.date.split('-')[2]
-  let bDate = b.date.split('-')[2]
-  if (aDate < bDate) {
-    return -1
-  } else if (aDate > bDate) {
-    return 1
-  }
-  else return 0
+  return new Date(a.date) - new Date(b.date);
+}
+function getTransformedDate(date) {
+  let year = date.getFullYear()
+  let month = date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
+  let day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()
+  return (`${year}-${month}-${day}`)
 }
 
 export async function getPricingForMonth(date) {
@@ -41,7 +40,7 @@ export async function getPricingForMonth(date) {
   let data = await axios.get('http://localhost:4000/api/getstocks')
   let stocks = data.data.sort(basedOnDay)
   let monthlyStockPrice = stocks.filter((stock) => {
-    let stockDates = new Date(...stock.date.split('-'))
+    let stockDates = new Date(stock.date)
     if (stockDates > startingDate) {
       if (endingDate > stockDates) {
         return true
@@ -51,7 +50,7 @@ export async function getPricingForMonth(date) {
     } else
       return false
   }).map((stock) => {
-    let stockDates = new Date(...stock.date.split('-'))
+    let stockDates = new Date(stock.date)
     return {
       date: stockDates,
       price: stock.close
@@ -83,6 +82,7 @@ export function calculateMaxProfit(monthlyStock, perUnit) {
         buyDetails = monthlyStock[i]
       }
     }
+    console.log(maxProfitDetails)
     return maxProfitDetails
   }
   else {
@@ -96,9 +96,11 @@ export function calculateMaxProfit(monthlyStock, perUnit) {
 }
 
 export async function updateStock(inputPrice, date) {
-  let year = date.getFullYear()
-  let month = date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
-  let day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()
-  let transformedDate = (`${year}-${month}-${day}`)
-  axios.post('http://localhost:4000/api/updatestocks',{date:transformedDate,close:inputPrice})
+  let transformedDate = getTransformedDate(date)
+  axios.post('http://localhost:4000/api/updatestocks', { date: transformedDate, close: inputPrice })
+}
+
+export async function deleteStock(date) {
+  let transformedDate = getTransformedDate(date)
+  axios.delete('http://localhost:4000/api/deletestock', { data: { date: transformedDate } })
 }

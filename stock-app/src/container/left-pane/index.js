@@ -11,7 +11,7 @@ class LeftPane extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      activeTile: '',
+      activeTile: -1,
       inputPrice: '',
       currentDate: new Date()
     }

@@ -45,11 +45,21 @@ app.post('/api/updatestocks', (req, res) => {
     date: updatedStock.date,
     close: Number(updatedStock.close)
   })
-  newStock.save().then((data)=>{
+  newStock.save().then((data) => {
     console.log(data)
     res.send('Successfully updated')
   }).catch((err) => {
     res.send(`Not updated`)
+  })
+})
+
+app.delete('/api/deletestock', (req, res) => {
+  var date = req.body.date
+  console.log(req.body)
+  Stock.deleteOne({ date: date }).then((data) => {
+    res.send('deleted successfully')
+  }).catch((err) => {
+    console.log(err)
   })
 })
 

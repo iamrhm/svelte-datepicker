@@ -19,9 +19,10 @@ const Calendar = (
     deleteStockData = () => { }
   }
 ) => {
-  const calendar = getCalenderArray(calendarDate)
-  const month = getMonth(calendarDate)
-  const year = calendarDate.getFullYear()
+  let calendar = getCalenderArray(calendarDate)
+  console.log(calendar)
+  let month = getMonth(calendarDate)
+  let year = calendarDate.getFullYear()
   return (
     <div className='calendar-container'>
       <div className='months-and-action-conatiner'>
@@ -55,6 +56,7 @@ const Calendar = (
                   isStockMissing={isStockMissing}
                   inputPrice={inputPrice}
                   price={foundStock !== undefined ? foundStock.price : ''}
+                  isToday = {calendarDate === currentDate}
 
                   onInputChange={date === activeTile ? onInputPriceChange : () => { }}
                   changeActiveTile={changeActiveTile}
