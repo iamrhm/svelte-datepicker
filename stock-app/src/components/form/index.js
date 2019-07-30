@@ -9,7 +9,7 @@ const Form = ({ inputPrice, onChange, onClick }) => {
         <input
           placeholder='A Missing Price'
           className='add-missing-price-input'
-          type='text'
+          type='number'
           value={inputPrice}
           onChange={(e) => onChange(e.target.value)} />
       </div>

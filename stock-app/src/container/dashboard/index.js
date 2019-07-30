@@ -58,7 +58,7 @@ class Dashboard extends Component {
   }
 
   savePriceData(inputPrice, date) {
-    updateStock(inputPrice, date)
+    updateStock(inputPrice.trim(), date)
     this.fectchData(this.state.calendarDate)
   }
 
