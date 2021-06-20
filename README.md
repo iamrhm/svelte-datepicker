@@ -34,3 +34,30 @@ Things to follow:­<br/>
 ● Create a public GitHub repository. (Share the link before starting the assignment.)<br/>
 ● Keep pushing your code in the repository.<br/>
 ● Make sure you have proper commit messages
+
+
+## How To Run:­
+
+To run UI Server
+
+`cd/stock-app`
+
+inside run
+
+`npm start`
+
+To run Node Server
+
+`cd/server`
+
+inside run
+
+`nodemon`
+
+
+**Note**:
+
+Source of Api Data: 
+`https://financialmodelingprep.com/api/v3/historical-price-full/AAPL?serietype=line`
+
+The JSON response transformed to current year for the data showing unavailability reason 
