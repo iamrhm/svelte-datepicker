@@ -1,63 +1,47 @@
+# Svelte + Vite
 
-## The task is to show details of a single stock.
+This template should help get you started developing with Svelte in Vite.
 
-Create a web page(reference image below) as follows: ­
-1. The left panel shows a calendar:­
-a. Stock prices by date.
-b. Add option for missing stock prices
-c. Delete option for existing stock prices.
-2. The Right panel shows the following:­
-a. Maximum profit that can be attained by buying and selling 10 units of the stock
-only once.
-b. The graph showing the stock prices trend.
-c. Buy and the sell date.
+## Recommended IDE Setup
 
-## Calendar Features:
-1. Stock prices are shown like events on google calendar.
-2. Do not create calendar UI instead use an existing plugin to save time.
-3. For dataset please use Airtable. You can create data sets in airflow and call the data
-using the Airtable API’s(https://airtable.com/)
-4. Next, each event would have a delete button. On pressing the button, the right panel
-data should change and display the new information. Also, Airtable API should be
-called to delete the data.
-5. If the particular day has no stock data, the user can add the stock price by pressing on
-the event card. A form would open just like google calendar and the information can be
-added.
+[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
 
-## Report:­
-1. You have to buy 10 units of the stock.
-2. You can buy and sell only once. The aim is to make maximum profit.
-3. Please use a plugin for displaying graphs(eg. D3, HighCharts)
-4. The report will change in case you remove or add stock prices from the calendar.
-Things to follow:­<br/>
-● Writing test cases will fetch additional points.<br/>
-● Create a public GitHub repository. (Share the link before starting the assignment.)<br/>
-● Keep pushing your code in the repository.<br/>
-● Make sure you have proper commit messages
+## Need an official Svelte framework?
 
+Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
 
-## How To Run:­
+## Technical considerations
 
-To run UI Server
+**Why use this over SvelteKit?**
 
-`cd/stock-app`
+- It brings its own routing solution which might not be preferable for some users.
+- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
 
-inside run
+This template contains as little as possible to get started with Vite + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
 
-`npm start`
+Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
 
-To run Node Server
+**Why `global.d.ts` instead of `compilerOptions.types` inside `jsconfig.json` or `tsconfig.json`?**
 
-`cd/server`
+Setting `compilerOptions.types` shuts out all other types not explicitly listed in the configuration. Using triple-slash references keeps the default TypeScript setting of accepting type information from the entire workspace, while also adding `svelte` and `vite/client` type information.
 
-inside run
+**Why include `.vscode/extensions.json`?**
 
-`nodemon`
+Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
 
+**Why enable `checkJs` in the JS template?**
 
-**Note**:
+It is likely that most cases of changing variable types in runtime are likely to be accidental, rather than deliberate. This provides advanced typechecking out of the box. Should you like to take advantage of the dynamically-typed nature of JavaScript, it is trivial to change the configuration.
 
-Source of Api Data: 
-`https://financialmodelingprep.com/api/v3/historical-price-full/AAPL?serietype=line`
+**Why is HMR not preserving my local component state?**
 
-The JSON response transformed to current year for the data showing unavailability reason 
+HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/sveltejs/svelte-hmr/tree/master/packages/svelte-hmr#preservation-of-local-state).
+
+If you have state that's important to retain within a component, consider creating an external store which would not be replaced by HMR.
+
+```js
+// store.js
+// An extremely simple external store
+import { writable } from 'svelte/store'
+export default writable(0)
+```
