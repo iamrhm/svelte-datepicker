@@ -5,7 +5,7 @@ export const months = [
 ];
 export const weekDay = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-export const getCalendar = (currDate) => {
+export const getMonthCalendar = (currDate) => {
   const currentDate = new Date(currDate);
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth();

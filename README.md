@@ -25,7 +25,10 @@ Here's an example of how you can integrate the Svelte Calendar component into yo
 <script>
   import Calendar from './path/to/Calendar.svelte';
 
-  // Your Svelte component logic
+  /*
+  - selectedDate - a call back to get the selected date
+  - showYearView - boolean, used for showing year view
+  */
 </script>
 
 <Calendar />
