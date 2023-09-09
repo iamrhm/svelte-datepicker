@@ -31,11 +31,13 @@ body {
   text-align: center;
   min-height: 100vh;
   padding: 0 16px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1a1a1a;
 }
-button {
-  background-color: rgb(55, 65, 81);
-  color: rgba(255, 255, 255);
-}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

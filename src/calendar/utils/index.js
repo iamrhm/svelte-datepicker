@@ -31,3 +31,24 @@ export const isSameDay = (d1, d2) => {
     d1.getMonth() === d2.getMonth() &&
     d1.getDate() === d2.getDate();
 }
+
+export const isSameMonth = (d1, d2) => {
+  return d1.getFullYear() === d2.getFullYear() &&
+    d1.getMonth() === d2.getMonth();
+}
+
+export const getYearRange = (year) => {
+  const lastChar = (`${year}`).substring((`${year}`).length - 1);
+  const yearToBeDeducted = Number(lastChar);
+  const startYear = year - yearToBeDeducted;
+  const endYear = year + (10 - yearToBeDeducted);
+  const years = [];
+  for (let i = startYear; i <= endYear; i++) {
+    years.push(i);
+  }
+  return {
+    startYear: year - yearToBeDeducted,
+    endYear: year + (10 - yearToBeDeducted),
+    years,
+  }
+}

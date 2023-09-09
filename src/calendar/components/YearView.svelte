@@ -1,96 +1,107 @@
 <script>
-  import { months } from '../utils';
-  import MonthView from './MonthView.svelte';
+  import { getYearRange } from '../utils';
+  import NextIcon from './Icons/NextIcon.svelte';
+  import PrevIcon from './Icons/PrevIcon.svelte';
 
   /* passed props */
-  export let currYear;
+  export let currDate;
   export let changeCalendarView;
   export let updateDate;
 
-  $:showYear = currYear;
+  /* reactive derived values */
+  $:showYear = (currDate || new Date()).getFullYear();
+  $:({
+    startYear,
+    endYear,
+    years,
+  } = getYearRange(showYear));
 
+  function selectedYear(selectedYear) {
+    const selectedDate = new Date(selectedYear, 1, 1);
+    updateDate(selectedDate);
+    changeCalendarView('month-view');
+  }
   function previousYear() {
-    showYear = showYear - 1;
+    showYear = startYear - 1;
+  }
+  function nextYear() {
+    showYear = endYear + 1;
   }
 
-  function nextYear() {
-    showYear = showYear + 1;
-  }
 </script>
 
-<div>
+<div class="year-calendar-wrapper">
+  <!-- Monthly calendar header  -->
   <div class="calendar-header">
     <button class="action-button" on:click={previousYear}>
-      Prev
+      <PrevIcon />
     </button>
-    <div
-      class="year-header-block"
+    <button
+      class="action-button year-indicator"
+      on:click={() => changeCalendarView('year-view')}
     >
-      {showYear}
-    </div>
+      {startYear} - {endYear}
+    </button>
     <button class="action-button" on:click={nextYear}>
-      Next
+      <NextIcon />
     </button>
   </div>
-  <div class="year-view">
-    {#each months as month, i}
-      <div class="month-view">
-        <MonthView
-          currDate={new Date(showYear, i, 1)}
-          changeCalendarView={changeCalendarView}
-          updateDate={updateDate}
-          size='small-view'
-        />
+  <!-- Month container -->
+  <div class="year-view-container">
+    {#each years as y, i}
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+      <div
+        class="block year-name-block pointer"
+        on:click={() => selectedYear(y)}
+        class:reduced-padding={y === (currDate || new Date()).getFullYear()}
+      >
+        {#if (y === (currDate || new Date()).getFullYear())}
+          <span class="current-year-indicator">
+            {y}
+          </span>
+          {:else}
+          {y}
+          {/if}
       </div>
+      {#if (i + 1) % 3 === 0}
+        <br />
+      {/if}
     {/each}
   </div>
 </div>
 
 <style>
-  .calendar-header {
-    display: flex;
-    padding: 16px 8px;
-    justify-content: space-between;
-    align-items: center;
+  .year-calendar-wrapper {
+    padding-bottom: 12px;
   }
-  .year-view {
+  .year-view-container {
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
   }
-  .month-view {
-    width: 100%;
-    padding: 14px 0px;
+  .year-name-block {
+    width: calc(100% / 3);
+    padding: 2.3em 1em;
+    font-size: 0.8em;
   }
-  .year-header-block,
-  .action-button {
-    padding: 12px 14px;
-    cursor: pointer;
-    border-radius: 4px;
+  .reduced-padding {
+    padding: 1.7em 0.6em;
   }
-  .year-header-block {
+  .year-indicator {
     outline: none;
     background-color: transparent;
+    border: none;
     font-weight: 800;
-    font-size: 18px;
+    font-size: 1em;
+    padding: 0.71em;
   }
-  .action-button {
-    padding: 10px 16px;
-    border: 1px solid transparent;
-    border-color: rgba(153 153 153/ 0.6);
-    transition: border-color 0.25s;
-    font-size: 12px;
-    outline: none;
-  }
-  @media (min-width: 992px) {
-    .month-view {
-      width: calc(100% / 3);
-      padding: 12px 24px;
-    }
-    .calendar-header {
-      padding: 16px;
-    }
-    .year-header-block {
-      font-size: 24px;
-    }
+  .current-year-indicator {
+    background: #747bff;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.6em 0.4em;
   }
 </style>
