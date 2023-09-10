@@ -1,5 +1,5 @@
 <script>
-  import Calender from './calendar/index.svelte';
+  import Calender from '@packages/svelte-calendar';
 </script>
 
 <div class="calendar-container">

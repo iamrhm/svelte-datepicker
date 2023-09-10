@@ -1,7 +1,7 @@
 <script>
-  import DayView from "./components/DayView.svelte";
-  import MonthView from "./components/MonthView.svelte";
-  import YearView from "./components/YearView.svelte";
+  import DayView from "./calendar/components/DayView.svelte";
+  import MonthView from "./calendar/components/MonthView.svelte";
+  import YearView from "./calendar/components/YearView.svelte";
 
   export let selectedDate = (d) => {};
 
