@@ -1,5 +1,5 @@
 {
-  "name": "svelte-calendar-demo",
+  "name": "svelte-datepicker",
   "version": "0.0.1",
   "private": true,
   "workspaces": [
@@ -9,6 +9,5 @@
   "scripts": {
   },
   "devDependencies": {
-    "turbo": "latest"
   }
 }

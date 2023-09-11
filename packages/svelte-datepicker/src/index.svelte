@@ -7,16 +7,16 @@
   export let onChange = (d) => {};
   export let onViewChange = (v) => {};
   export let startDate = new Date();
+  export let defaultView = ViewType.month;
+  export let allowedViews = Object.keys(ViewType).map(k => ViewType[k]);
   export let rootClass = '';
   export let calendarWrapperClass = '';
-  export let defaultView = '';
-  export let allowedViews = Object.keys(ViewType).map(k => ViewType[k]);
 
   /* reactive derived values */
-  $:calendarViewType = allowedViews.indexOf(defaultView) >= 0 ?  defaultView : ViewType.monthView;
+  $:calendarViewType = allowedViews.indexOf(defaultView) >= 0 ?  defaultView : ViewType.month;
   $:currDate = startDate;
 
-  function onViewTypeChange(type = ViewType.monthView) {
+  function onViewTypeChange(type = ViewType.month) {
     if (allowedViews.indexOf(type) >= 0) {
       calendarViewType = type;
       onViewChange(calendarViewType);
@@ -24,27 +24,29 @@
   }
   function onDateChange(newDate) {
     currDate = newDate;
-    onChange(newDate);
+    if (calendarViewType === defaultView) {
+      onChange(newDate);
+    }
   }
 </script>
 
 
 <div class={rootClass ? `calendar-wrapper ${rootClass}` : 'calendar-wrapper'}>
-  {#if (calendarViewType === ViewType.monthView)}
+  {#if (calendarViewType === ViewType.month)}
     <MonthView
       currDate={currDate}
       className={calendarWrapperClass}
       onViewTypeChange={onViewTypeChange}
       onDateChange={onDateChange}
     />
-    {:else if (calendarViewType === ViewType.yearView)}
+    {:else if (calendarViewType === ViewType.year)}
       <YearView
         currDate={currDate}
         className={calendarWrapperClass}
         onViewTypeChange={onViewTypeChange}
         onDateChange={onDateChange}
       />
-    {:else if (calendarViewType === ViewType.decadeView)}
+    {:else if (calendarViewType === ViewType.decade)}
       <DecadeView
         currDate={currDate}
         className={calendarWrapperClass}

@@ -47,7 +47,7 @@
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
       <div
-        class="block year-name-block pointer"
+        class="block month-name-block pointer"
         on:click={() => selectMonth(i)}
         class:reduced-padding={isSameMonth(new Date(showYear, i, 1), new Date())}
       >

@@ -1,3 +1,3 @@
-# svelte-calendar
+# svelte-datepicker
 
-Looking for the Svelte-calendar documentation? It can now be found [here](packages/svelte-calendar/README.md).
+Looking for the svelte-datepicker documentation? It can now be found [here](packages/svelte-datepicker/README.md).

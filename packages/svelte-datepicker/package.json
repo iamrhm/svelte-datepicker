@@ -1,5 +1,5 @@
 {
-  "name": "@packages/svelte-calendar",
+  "name": "@packages/svelte-datepicker",
   "private": true,
   "version": "0.0.1",
   "description": "Ultimate calendar for your Svelte app.",
@@ -10,7 +10,8 @@
     "date",
     "date-picker",
     "month-picker",
-    "react"
+    "svelte",
+    "svelte-datepicker"
   ],
   "scripts": {
     "dev": "vite",

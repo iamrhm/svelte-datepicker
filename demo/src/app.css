@@ -31,10 +31,11 @@ body {
   text-align: center;
   min-height: 100vh;
   padding: 0 16px;
-
+  width: 100%;
+  
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   background-color: #1a1a1a;
 }
 

@@ -12,27 +12,28 @@
   export let onViewTypeChange = (d) => {};
   export let onDateChange = (d) => {};
 
+  $:showDate = currDate || new Date();
   $:({
     month, year,
     daysDistribution,
-  } = getMonthCalendar(currDate));
+  } = getMonthCalendar(showDate));
 
   function previousMonth() {
-    const currYear = currDate.getFullYear();
-    const currMonth = currDate.getMonth();
+    const currYear = showDate.getFullYear();
+    const currMonth = showDate.getMonth();
     if (currMonth - 1 < 0) {
-      onDateChange(new Date(currYear - 1, 11, 1));
+      showDate = new Date(currYear - 1, 11, 1);
     } else {
-      onDateChange(new Date(currYear, currMonth - 1, 1));
+      showDate = new Date(currYear, currMonth - 1, 1);
     }
   }
   function nextMonth() {
-    const currYear = currDate.getFullYear();
-    const currMonth = currDate.getMonth();
+    const currYear = showDate.getFullYear();
+    const currMonth = showDate.getMonth();
     if (currMonth + 1 > 11) {
-      onDateChange(new Date(currYear + 1, 0, 1));
+      showDate = new Date(currYear + 1, 0, 1);
     } else {
-      onDateChange(new Date(currYear, currMonth + 1, 1));
+      showDate = new Date(currYear, currMonth + 1, 1);
     }
   }
   function onSelectDate(newDate) {
