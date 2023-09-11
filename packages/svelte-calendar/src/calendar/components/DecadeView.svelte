@@ -1,5 +1,5 @@
 <script>
-  import { months, isSameMonth, ViewType } from '../utils';
+  import { getYearRange, ViewType } from '../utils';
   import NextIcon from './Icons/NextIcon.svelte';
   import PrevIcon from './Icons/PrevIcon.svelte';
 
@@ -9,54 +9,59 @@
   export let onViewTypeChange = (view) => {};
   export let onDateChange = (date) => {};
 
-  function selectMonth(monthNumber) {
-    const selectedDate = new Date(showYear, monthNumber, 1);
-    onDateChange(selectedDate);
-    onViewTypeChange(ViewType.month);
-  }
-  function previousYear() {
-    showYear = showYear - 1;
-  }
-  function nextYear() {
-    showYear = showYear + 1;
-  }
-
   /* reactive derived values */
   $:showYear = (currDate || new Date()).getFullYear();
+  $:({
+    startYear,
+    endYear,
+    years,
+  } = getYearRange(showYear));
+
+  function selectedYear(selectedYear) {
+    const selectedDate = new Date(selectedYear, 1, 1);
+    onDateChange(selectedDate);
+    onViewTypeChange(ViewType.year);
+  }
+  function previousYear() {
+    showYear = startYear - 1;
+  }
+  function nextYear() {
+    showYear = endYear + 1;
+  }
+
 </script>
 
-<div class={className ? `year-calendar-wrapper ${className}` : 'year-calendar-wrapper'}>
+<div class={className ? `decade-calendar-wrapper ${className}` : 'decade-calendar-wrapper'}>
   <!-- Monthly calendar header  -->
   <div class="calendar-header">
     <button class="action-button" on:click={previousYear}>
       <PrevIcon />
     </button>
     <button
-      class="action-button year-indicator"
-      on:click={() => onViewTypeChange(ViewType.decade)}
+      class="action-button decade-indicator"
     >
-      {showYear}
+      {startYear} - {endYear}
     </button>
     <button class="action-button" on:click={nextYear}>
       <NextIcon />
     </button>
   </div>
   <!-- Month container -->
-  <div class="year-view-container">
-    {#each months as month, i}
+  <div class="decade-view-container">
+    {#each years as y, i}
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
       <div
-        class="block year-name-block pointer"
-        on:click={() => selectMonth(i)}
-        class:reduced-padding={isSameMonth(new Date(showYear, i, 1), new Date())}
+        class="block year-block pointer"
+        on:click={() => selectedYear(y)}
+        class:reduced-padding={y === (currDate || new Date()).getFullYear()}
       >
-        {#if (isSameMonth(new Date(showYear, i, 1), new Date()))}
-          <span class="current-month-indicator">
-            {month}
+        {#if (y === (currDate || new Date()).getFullYear())}
+          <span class="current-year-indicator">
+            {y}
           </span>
           {:else}
-          {month}
+          {y}
           {/if}
       </div>
       {#if (i + 1) % 3 === 0}
@@ -67,23 +72,15 @@
 </div>
 
 <style>
-  .year-calendar-wrapper {
+  .decade-calendar-wrapper {
     padding-bottom: 12px;
   }
-  .year-view-container {
+  .decade-view-container {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
   }
-  .month-name-block {
-    width: calc(100% / 3);
-    padding: 2.3em 1em;
-    font-size: 0.8em;
-  }
-  .reduced-padding {
-    padding: 1.7em 0.6em;
-  }
-  .year-indicator {
+  .decade-indicator {
     outline: none;
     background-color: transparent;
     border: none;
@@ -91,7 +88,15 @@
     font-size: 1em;
     padding: 0.71em;
   }
-  .current-month-indicator {
+  .year-block {
+    width: calc(100% / 3);
+    padding: 2.3em 1em;
+    font-size: 0.8em;
+  }
+  .reduced-padding {
+    padding: 1.7em 0.6em;
+  }
+  .current-year-indicator {
     background: #747bff;
     border-radius: 4px;
     display: flex;

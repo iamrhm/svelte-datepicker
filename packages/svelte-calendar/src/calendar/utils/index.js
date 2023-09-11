@@ -4,6 +4,11 @@ export const months = [
   'September', 'October', 'November', 'December'
 ];
 export const weekDay = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+export const ViewType = {
+  month: 'month',
+  year: 'year',
+  decade: 'decade',
+}
 
 export const getMonthCalendar = (currDate) => {
   const currentDate = new Date(currDate);

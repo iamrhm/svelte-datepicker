@@ -1,6 +1,6 @@
 # Svelte Calendar
 
-Welcome to the Svelte Calendar project! This repository hosts a customizable and responsive calendar component built using the Svelte framework. Whether you're building a personal productivity app, a scheduling application, or just need a sleek and efficient calendar UI, this project has you covered.
+This repository hosts a customizable and responsive calendar/date-picker component built using the Svelte. Whether you're building a personal productivity app, a scheduling application, or just need a sleek and efficient calendar/date-picker UI, this project has you covered.
 
 ## Features
 
@@ -24,13 +24,25 @@ Here's an example of how you can integrate the Svelte Calendar component into yo
 ```svelte
 <script>
   import Calendar from './path/to/Calendar.svelte';
-
-  /*
-  - selectedDate - a call back to get the selected date
-  - showYearView - boolean, used for showing year view
-  */
 </script>
 
 <Calendar />
-
 ```
+
+## User guide
+
+### Calendar
+
+Displays a complete, interactive calendar.
+
+#### Props
+
+| Prop name | Description | Example values |
+| --- | --- | --- |
+| `onChange` | Function called when the user clicks an item (day on month view, month on year view and so on) on the most detailed view available. | `(date) => {}` |
+| `onViewChange` | Function called when the user navigates from one view to another using drill up button or by clicking a tile. | `(viewType: 'month' | 'year' | 'decade') => {}` |
+| `startDate` | The beginning of a period that shall be displayed by default. | `new Date(2017, 0, 1)` |
+| `rootClass` | Class name that will be applied to a given calendar wrapper | String: `"class1 class2"` |
+| `calendarWrapperClass` | Class name that will be applied to different view type of calendar wrapper,  | String: `"class1 class2"` |
+| `defaultView` | Determines which calendar view shall be opened initially. Does not disable navigation. Can be `"month"`, `"year"`, `"decade"`, it's optional. | `"month"` |
+| `allowedViews` | Will be an array of views that should be displayed while user navigates the calendar/date-picker, it's optional | initial value, `["month", "year", "decade"]` |

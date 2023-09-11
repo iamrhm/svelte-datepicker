@@ -1,45 +1,55 @@
 <script>
-  import DayView from "./calendar/components/DayView.svelte";
   import MonthView from "./calendar/components/MonthView.svelte";
   import YearView from "./calendar/components/YearView.svelte";
+  import DecadeView from "./calendar/components/DecadeView.svelte";
+  import { ViewType } from './calendar/utils';
 
-  export let selectedDate = (d) => {};
+  export let onChange = (d) => {};
+  export let onViewChange = (v) => {};
+  export let startDate = new Date();
+  export let rootClass = '';
+  export let calendarWrapperClass = '';
+  export let defaultView = '';
+  export let allowedViews = Object.keys(ViewType).map(k => ViewType[k]);
 
   /* reactive derived values */
-  $:calendarViewType = 'day-view';
-  $:currDate = new Date();
+  $:calendarViewType = allowedViews.indexOf(defaultView) >= 0 ?  defaultView : ViewType.monthView;
+  $:currDate = startDate;
 
-  function changeCalendarView(type = 'day-view') {
-    calendarViewType = type;
+  function onViewTypeChange(type = ViewType.monthView) {
+    if (allowedViews.indexOf(type) >= 0) {
+      calendarViewType = type;
+      onViewChange(calendarViewType);
+    }
   }
-  function updateDate(newDate) {
+  function onDateChange(newDate) {
     currDate = newDate;
-  }
-  function selectCalendarDate(newDate) {
-    selectedDate(newDate);
+    onChange(newDate);
   }
 </script>
 
 
-<div class="calendar-wrapper">
-  {#if (calendarViewType === 'day-view')}
-    <DayView
+<div class={rootClass ? `calendar-wrapper ${rootClass}` : 'calendar-wrapper'}>
+  {#if (calendarViewType === ViewType.monthView)}
+    <MonthView
       currDate={currDate}
-      changeCalendarView={changeCalendarView}
-      updateDate={updateDate}
-      selectCalendarDate={selectCalendarDate}
+      className={calendarWrapperClass}
+      onViewTypeChange={onViewTypeChange}
+      onDateChange={onDateChange}
     />
-    {:else if (calendarViewType === 'month-view')}
-      <MonthView
-        currDate={currDate}
-        changeCalendarView={changeCalendarView}
-        updateDate={updateDate}
-      />
-    {:else if (calendarViewType === 'year-view')}
+    {:else if (calendarViewType === ViewType.yearView)}
       <YearView
         currDate={currDate}
-        changeCalendarView={changeCalendarView}
-        updateDate={updateDate}
+        className={calendarWrapperClass}
+        onViewTypeChange={onViewTypeChange}
+        onDateChange={onDateChange}
+      />
+    {:else if (calendarViewType === ViewType.decadeView)}
+      <DecadeView
+        currDate={currDate}
+        className={calendarWrapperClass}
+        onViewTypeChange={onViewTypeChange}
+        onDateChange={onDateChange}
       />
   {/if}
 </div>
@@ -95,7 +105,7 @@
     outline: none;
   }
   :global(.action-button > svg){
-    fill: #fff;
+    fill: inherit;
   }
   :global(.pointer) {
     cursor: pointer;

@@ -1,88 +1,117 @@
 <script>
-  import { months, isSameMonth } from '../utils';
+  import {
+    getMonthCalendar, isSameDay,
+    months, weekDay, ViewType,
+  } from '../utils';
   import NextIcon from './Icons/NextIcon.svelte';
   import PrevIcon from './Icons/PrevIcon.svelte';
 
   /* passed props */
   export let currDate;
-  export let changeCalendarView;
-  export let updateDate;
+  export let className = '';
+  export let onViewTypeChange = (d) => {};
+  export let onDateChange = (d) => {};
 
-  function selectMonth(monthNumber) {
-    const selectedDate = new Date(showYear, monthNumber, 1);
-    updateDate(selectedDate);
-    changeCalendarView('day-view');
-  }
-  function previousYear() {
-    showYear = showYear - 1;
-  }
-  function nextYear() {
-    showYear = showYear + 1;
-  }
+  $:({
+    month, year,
+    daysDistribution,
+  } = getMonthCalendar(currDate));
 
-  /* reactive derived values */
-  $:showYear = (currDate || new Date()).getFullYear();
+  function previousMonth() {
+    const currYear = currDate.getFullYear();
+    const currMonth = currDate.getMonth();
+    if (currMonth - 1 < 0) {
+      onDateChange(new Date(currYear - 1, 11, 1));
+    } else {
+      onDateChange(new Date(currYear, currMonth - 1, 1));
+    }
+  }
+  function nextMonth() {
+    const currYear = currDate.getFullYear();
+    const currMonth = currDate.getMonth();
+    if (currMonth + 1 > 11) {
+      onDateChange(new Date(currYear + 1, 0, 1));
+    } else {
+      onDateChange(new Date(currYear, currMonth + 1, 1));
+    }
+  }
+  function onSelectDate(newDate) {
+    onDateChange(newDate);
+  }
 </script>
 
-<div class="month-calendar-wrapper">
-  <!-- Monthly calendar header  -->
+<div class={className ? `daily-calendar-wrapper ${className}` : 'daily-calendar-wrapper'}>
+  <!-- Daily calendar header  -->
   <div class="calendar-header">
-    <button class="action-button" on:click={previousYear}>
-      <PrevIcon />
-    </button>
+    <div class="button-wrapper">
+      <button class="action-button" on:click={previousMonth}>
+        <PrevIcon />
+      </button>
+    </div>
     <button
-      class="action-button year-indicator"
-      on:click={() => changeCalendarView('year-view')}
+      class="action-button month-year-indicator"
+      on:click={() => onViewTypeChange(ViewType.year)}
     >
-      {showYear}
+      {months[month]}, {year}
     </button>
-    <button class="action-button" on:click={nextYear}>
-      <NextIcon />
-    </button>
+    <div class="button-wrapper">
+      <button class="action-button" on:click={nextMonth}>
+        <NextIcon />
+      </button>
+    </div>
   </div>
-  <!-- Month container -->
-  <div class="month-view-container">
-    {#each months as month, i}
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-      <div
-        class="block month-name-block pointer"
-        on:click={() => selectMonth(i)}
-        class:reduced-padding={isSameMonth(new Date(showYear, i, 1), new Date())}
-      >
-        {#if (isSameMonth(new Date(showYear, i, 1), new Date()))}
-          <span class="current-month-indicator">
-            {month}
-          </span>
-          {:else}
-          {month}
-          {/if}
+  <!-- Weekdays header row -->
+  <div class="week-days-row">
+    {#each weekDay as d, i}
+      <div class="block weekday-name-block">
+        {d.charAt(0).toUpperCase()}
       </div>
-      {#if (i + 1) % 3 === 0}
-        <br />
-      {/if}
+    {/each}
+  </div>
+  <!-- Date container -->
+  <div class="daily-date-container">
+    {#each daysDistribution as day, i}
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
+        <div
+          class="block daily-date-block pointer"
+          on:click={() => onSelectDate(new Date(year, month, i-1))}
+        >
+          {#if (isSameDay(new Date(year, month, i-1), new Date()))}
+            <span
+              class="date-block current-day-indicator"
+            >
+              {day}
+            </span>
+            {:else}
+            <span class="date-block">
+              {day}
+            </span>
+          {/if}
+        </div>
+        {#if (i + 1) % 7 === 0}
+          <br />
+        {/if}
     {/each}
   </div>
 </div>
 
 <style>
-  .month-calendar-wrapper {
-    padding-bottom: 12px;
-  }
-  .month-view-container {
+  .week-days-row,
+  .daily-date-container {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
   }
-  .month-name-block {
-    width: calc(100% / 3);
-    padding: 2.3em 1em;
-    font-size: 0.8em;
+  .weekday-name-block,
+  .daily-date-block {
+    width: calc(100% / 7);
+    font-variant-numeric: tabular-nums;
   }
-  .reduced-padding {
-    padding: 1.7em 0.6em;
+  .weekday-name-block {
+    font-weight: bold;
   }
-  .year-indicator {
+  .month-year-indicator {
     outline: none;
     background-color: transparent;
     border: none;
@@ -90,12 +119,19 @@
     font-size: 1em;
     padding: 0.71em;
   }
-  .current-month-indicator {
-    background: #747bff;
-    border-radius: 4px;
+  .date-block {
+    width: 28px;
+    height: 28px;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0.6em 0.4em;
+  }
+  .current-day-indicator {
+    background: #747bff;
+    padding: 0.57em 0.85em;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 </style>
