@@ -1,10 +1,14 @@
 {
-  "name": "@packages/svelte-datepicker",
-  "private": true,
+  "name": "@mittirorg/svelte-datepicker",
   "version": "0.0.1",
   "description": "Ultimate calendar for your Svelte app.",
   "main": "./src/index.svelte",
   "type": "module",
+  "author": {
+    "name": "Rahul Mitra",
+    "email": "rahulmitra980@gmail.com"
+  },
+  "license": "MIT",
   "keywords": [
     "calendar",
     "date",
@@ -22,5 +26,14 @@
     "@sveltejs/vite-plugin-svelte": "^2.4.2",
     "svelte": "^4.0.5",
     "vite": "^4.4.5"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iamrhm/svelte-datepicker.git",
+    "directory": "packages/svelte-datepicker"
   }
 }

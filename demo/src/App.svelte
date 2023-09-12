@@ -1,5 +1,5 @@
 <script>
-  import DatePicker from "@packages/svelte-datepicker";
+  import DatePicker from "@mittirorg/svelte-datepicker";
   const initialView = 'month';
 
   $:showDatePicker = false;
