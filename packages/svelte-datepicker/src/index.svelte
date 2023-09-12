@@ -24,9 +24,7 @@
   }
   function onDateChange(newDate) {
     currDate = newDate;
-    if (calendarViewType === defaultView) {
-      onChange(newDate);
-    }
+    onChange(newDate);
   }
 </script>
 
